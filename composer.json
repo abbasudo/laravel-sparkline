@@ -1,0 +1,36 @@
+{
+  "name": "llabbasmkhll/laravel-sparklines",
+  "description": "generate small chart and sparklines in your laravel app",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "abbas mkhzomi",
+      "email": "llabbasmkhll@gmail.com",
+      "role": "developer"
+    }
+  ],
+  "require": {
+    "php": "8.*",
+    "laravel/framework": "5.*|6.*|7.*|8.*|9.*",
+    "ext-gd": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Llabbasmkhll\\LaravelSparklines\\": "src"
+    }
+  },
+  "require-dev": {
+    "orchestra/testbench": "6.0"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Llabbasmkhll\\LaravelGd\\LaravelSparklinesServiceProvider"
+      ],
+      "aliases": {
+        "Sparkline": "Llabbasmkhll\\LaravelZibal\\Facades\\Sparkline"
+      }
+    }
+  }
+}
