@@ -2,6 +2,7 @@
 
 namespace Llabbasmkhll\LaravelSparkline;
 
+use Illuminate\Support\Collection;
 use Intervention\Image\Facades\Image;
 
 class Sparkline extends Image
@@ -17,13 +18,45 @@ class Sparkline extends Image
     private int $width = 200;
 
     /**
-     * @var int|false
+     * @var array
      */
-    private int|false $color;
+    private array $color = [255, 255, 0, 1];
+
+    /**
+     * @var Collection
+     */
+    private Collection $data;
 
     public function create()
     {
-        return Image::canvas(100, 100)->opacity(100)->line(0, 0, 100, 100,)->fill('#cccccc',0,75);
+        $step = $this->width / $this->data->count();
+
+        $this->data->transform(function ($item) {
+            return $item * $this->data->min();
+        });
+
+        $image = Image::canvas($this->height, $this->height)->opacity(100);
+
+        $base = 0;
+
+        $this->data->each(function ($item, $key) use ($step, $image, &$base) {
+            if ($item === $this->data->last()) {
+                return false;
+            }
+            $image->line(
+                $base,
+                $this->height / ($this->data->max() / $item),
+                $base + $step,
+                $this->height / ($this->data->max() / $this->data[$key + 1]),
+                function ($draw) {
+                    $draw->color($this->color);
+                }
+            );
+            $base += $step;
+        });
+
+
+        return $image->response('png');
     }
 
     public function save(string $path)
@@ -31,28 +64,35 @@ class Sparkline extends Image
         return imagepng($this->image, $path);
     }
 
-    public function red($alpha = 0)
+    public function data(array $data)
+    {
+        $this->data = collect($data);
+
+        return $this;
+    }
+
+    public function red($alpha = 1)
     {
         $this->color(250, 0, 0, $alpha);
 
         return $this;
     }
 
-    public function color(int $red, int $green, int $blue, int $alpha)
+    public function color(int $red, int $green, int $blue, int $alpha = 1)
     {
-        $this->color = imagecolorallocatealpha($this->image, $red, $green, $blue, $alpha);
+        $this->color = [$red, $green, $blue, $alpha];
 
         return $this;
     }
 
-    public function blue($alpha = 0)
+    public function blue($alpha = 1)
     {
         $this->color(0, 0, 250, $alpha);
 
         return $this;
     }
 
-    public function green($alpha = 0)
+    public function green($alpha = 1)
     {
         $this->color(0, 250, 0, $alpha);
 
@@ -62,13 +102,6 @@ class Sparkline extends Image
     public function fill(?int $x, ?int $y)
     {
         imagefill($this->image, $x ?? $this->height / 2, $y ?? $this->width / 2, $this->color);
-
-        return $this;
-    }
-
-    public function line(array $from, array $to)
-    {
-        imageline($this->image, $from['x'], $from['y'], $to['x'], $to['y'], $this->color);
 
         return $this;
     }
