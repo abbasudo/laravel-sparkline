@@ -32,7 +32,7 @@ class Sparkline extends Image
         $step = $this->width / $this->data->count();
 
         $this->data->transform(function ($item) {
-            return $item * $this->data->min();
+            return $item - $this->data->min();
         });
 
         $image = Image::canvas($this->height, $this->height)->opacity(100);
@@ -45,9 +45,9 @@ class Sparkline extends Image
             }
             $image->line(
                 $base,
-                $this->height / ($this->data->max() / $item),
+                $this->height / ($this->data->max() / ($item + 1)),
                 $base + $step,
-                $this->height / ($this->data->max() / $this->data[$key + 1]),
+                $this->height / ($this->data->max() / ($this->data[$key + 1] + 1)),
                 function ($draw) {
                     $draw->color($this->color);
                 }
