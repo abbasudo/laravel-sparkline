@@ -1,6 +1,6 @@
 <?php
 
-namespace Llabbasmkhll\LaravelGd\Facades;
+namespace Llabbasmkhll\LaravelSparkline\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Llabbasmkhll\LaravelGd;
+namespace Llabbasmkhll\LaravelSparkline;
 
 use Illuminate\Support\ServiceProvider;
 
