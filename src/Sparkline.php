@@ -42,6 +42,11 @@ class Sparkline extends Image
      */
     private \Intervention\Image\Image $image;
 
+    /**
+     * @var integer
+     */
+    private int $thickness = 2;
+
     public function __construct()
     {
         $this->image = Image::canvas($this->width, $this->height);
@@ -50,6 +55,8 @@ class Sparkline extends Image
     public function render()
     {
         $this->image->fill($this->background);
+
+        imagesetthickness($this->image->getCore(), $this->thickness);
 
         $this->draw();
 
@@ -72,9 +79,9 @@ class Sparkline extends Image
             }
             $this->image->line(
                 $base,
-                round($this->height / ($this->data->max() / ($item + 1))),
+                round($this->height / ($this->data->max() / ($item + $this->thickness))),
                 $base + $step,
-                round($this->height / ($this->data->max() / ($this->data[$key + 1] + 1))),
+                round($this->height / ($this->data->max() / ($this->data[$key + 1] + $this->thickness))),
                 function ($draw) {
                     $draw->color($this->color);
                 }
@@ -111,6 +118,13 @@ class Sparkline extends Image
     public function background(int $red, int $green, int $blue, int $alpha = 1)
     {
         $this->background = [$red, $green, $blue, $alpha];
+
+        return $this;
+    }
+
+    public function thickness(int $thickness)
+    {
+        $this->thickness = $thickness;
 
         return $this;
     }
