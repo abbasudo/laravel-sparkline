@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  *
+ * @mixin \Llabbasmkhll\LaravelSparkline\Sparkline
+ *
+ * @package Llabbasmkhll\LaravelSparkline\Facades
  */
 class Sparkline extends Facade
 {

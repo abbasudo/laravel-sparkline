@@ -5,7 +5,7 @@ namespace Llabbasmkhll\LaravelSparkline;
 use Illuminate\Support\Collection;
 use Intervention\Image\Facades\Image;
 
-class Sparkline extends Image
+class Sparkline
 {
     /**
      * @var int
