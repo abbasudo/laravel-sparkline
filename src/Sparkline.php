@@ -57,7 +57,10 @@ class Sparkline extends Image
         $this->image = Image::canvas($this->width, $this->height);
     }
 
-    public function render()
+    /**
+     * @return \Intervention\Image\Image
+     */
+    public function render(): \Intervention\Image\Image
     {
         $this->image->fill($this->background);
 
@@ -72,7 +75,10 @@ class Sparkline extends Image
         return $this->image;
     }
 
-    private function draw()
+    /**
+     * @return void
+     */
+    private function draw(): void
     {
         $step = $this->width / ($this->data->count() - 1);
 
@@ -96,7 +102,12 @@ class Sparkline extends Image
         });
     }
 
-    public function alpha(float $alpha)
+    /**
+     * @param  float  $alpha
+     *
+     * @return $this
+     */
+    public function alpha(float $alpha): static
     {
         if ($alpha > 1) {
             $alpha = 1;
@@ -107,7 +118,12 @@ class Sparkline extends Image
         return $this;
     }
 
-    public function data(array $data)
+    /**
+     * @param  array  $data
+     *
+     * @return $this
+     */
+    public function data(array $data): static
     {
         $this->data = collect($data);
 
@@ -118,7 +134,15 @@ class Sparkline extends Image
         return $this;
     }
 
-    public function color(int $red, int $green, int $blue, int $alpha = 1)
+    /**
+     * @param  int  $red
+     * @param  int  $green
+     * @param  int  $blue
+     * @param  int  $alpha
+     *
+     * @return $this
+     */
+    public function color(int $red, int $green, int $blue, int $alpha = 1): static
     {
         if ($alpha > 1) {
             $alpha = 1;
@@ -129,28 +153,54 @@ class Sparkline extends Image
         return $this;
     }
 
-    public function fill(int $red, int $green, int $blue, int $alpha = 1)
+    /**
+     * @param  int  $red
+     * @param  int  $green
+     * @param  int  $blue
+     * @param  int  $alpha
+     *
+     * @return $this
+     */
+    public function fill(int $red, int $green, int $blue, int $alpha = 1): static
     {
         $this->fill = [$red, $green, $blue, $alpha];
 
         return $this;
     }
 
-    public function background(int $red, int $green, int $blue, int $alpha = 1)
+    /**
+     * @param  int  $red
+     * @param  int  $green
+     * @param  int  $blue
+     * @param  int  $alpha
+     *
+     * @return $this
+     */
+    public function background(int $red, int $green, int $blue, int $alpha = 1): static
     {
         $this->background = [$red, $green, $blue, $alpha];
 
         return $this;
     }
 
-    public function thickness(int $thickness)
+    /**
+     * @param  int  $thickness
+     *
+     * @return $this
+     */
+    public function thickness(int $thickness): static
     {
         $this->thickness = $thickness;
 
         return $this;
     }
 
-    public function offset(float $offset)
+    /**
+     * @param  float  $offset
+     *
+     * @return $this
+     */
+    public function offset(float $offset): static
     {
         $this->offset = $offset;
 
