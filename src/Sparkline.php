@@ -20,7 +20,7 @@ class Sparkline extends Image
     /**
      * @var int[]
      */
-    private array $color = [219, 211, 44, 1];
+    private array $color = [219, 211, 44, 1.0];
 
     /**
      * @var int[]
@@ -30,7 +30,7 @@ class Sparkline extends Image
     /**
      * @var int[]
      */
-    private array $fill = [219, 211, 44, 0.5];
+    private array $fill = [219, 211, 44, 0];
 
     /**
      * @var Collection
@@ -46,6 +46,11 @@ class Sparkline extends Image
      * @var integer
      */
     private int $thickness = 2;
+
+    /**
+     * @var float
+     */
+    private float $offset = 0.2;
 
     public function __construct()
     {
@@ -79,15 +84,27 @@ class Sparkline extends Image
             }
             $this->image->line(
                 $base,
-                round($this->height / ($this->data->max() / ($item + $this->thickness))),
+                round($this->height / ($this->data->max() / ($item + 1))) + $this->thickness,
                 $base + $step,
-                round($this->height / ($this->data->max() / ($this->data[$key + 1] + $this->thickness))),
-                function ($draw) {
+                round($this->height / ($this->data->max() / ($this->data[$key + 1] + 1))) + $this->thickness,
+                function ($draw) use ($key) {
+                    $this->alpha($this->data->count() / 100 * $key / 100 + $this->offset);
                     $draw->color($this->color);
                 }
             );
             $base += $step;
         });
+    }
+
+    public function alpha(float $alpha)
+    {
+        if ($alpha > 1) {
+            $alpha = 1;
+        }
+
+        $this->color[3] = $alpha;
+
+        return $this;
     }
 
     public function data(array $data)
@@ -103,6 +120,10 @@ class Sparkline extends Image
 
     public function color(int $red, int $green, int $blue, int $alpha = 1)
     {
+        if ($alpha > 1) {
+            $alpha = 1;
+        }
+
         $this->color = [$red, $green, $blue, $alpha];
 
         return $this;
@@ -125,6 +146,13 @@ class Sparkline extends Image
     public function thickness(int $thickness)
     {
         $this->thickness = $thickness;
+
+        return $this;
+    }
+
+    public function offset(float $offset)
+    {
+        $this->offset = $offset;
 
         return $this;
     }
