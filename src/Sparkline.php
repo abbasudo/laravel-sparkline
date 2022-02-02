@@ -18,62 +18,78 @@ class Sparkline extends Image
     private int $width = 200;
 
     /**
-     * @var array
+     * @var int[]
      */
-    private array $color = [255, 255, 0, 1];
+    private array $color = [219, 211, 44, 1];
+
+    /**
+     * @var int[]
+     */
+    private array $background = [0, 0, 0, 0];
+
+    /**
+     * @var int[]
+     */
+    private array $fill = [219, 211, 44, 0.5];
 
     /**
      * @var Collection
      */
     private Collection $data;
 
-    public function create()
+    /**
+     * @var \Intervention\Image\Image
+     */
+    private \Intervention\Image\Image $image;
+
+    public function __construct()
     {
-        $step = $this->width / $this->data->count();
+        $this->image = Image::canvas($this->width, $this->height);
+    }
 
-        $this->data->transform(function ($item) {
-            return $item - $this->data->min();
-        });
+    public function render()
+    {
+        $this->image->fill($this->background);
 
-        $image = Image::canvas($this->height, $this->height)->opacity(100);
+        $this->draw();
+
+        $this->image->fill($this->fill, 1, 1);
+
+        $this->image->flip('vertical');
+
+        return $this->image;
+    }
+
+    private function draw()
+    {
+        $step = $this->width / ($this->data->count() - 1);
 
         $base = 0;
 
-        $this->data->each(function ($item, $key) use ($step, $image, &$base) {
+        $this->data->each(function ($item, $key) use ($step, &$base) {
             if ($item === $this->data->last()) {
                 return false;
             }
-            $image->line(
+            $this->image->line(
                 $base,
-                $this->height / ($this->data->max() / ($item + 1)),
+                round($this->height / ($this->data->max() / ($item + 1))),
                 $base + $step,
-                $this->height / ($this->data->max() / ($this->data[$key + 1] + 1)),
+                round($this->height / ($this->data->max() / ($this->data[$key + 1] + 1))),
                 function ($draw) {
                     $draw->color($this->color);
                 }
             );
             $base += $step;
         });
-
-
-        return $image->response('png');
-    }
-
-    public function save(string $path)
-    {
-        return imagepng($this->image, $path);
     }
 
     public function data(array $data)
     {
         $this->data = collect($data);
 
-        return $this;
-    }
-
-    public function red($alpha = 1)
-    {
-        $this->color(250, 0, 0, $alpha);
+        $this->data->transform(
+            fn($item) => $item - $this->data->min()
+        );
 
         return $this;
     }
@@ -85,23 +101,16 @@ class Sparkline extends Image
         return $this;
     }
 
-    public function blue($alpha = 1)
+    public function fill(int $red, int $green, int $blue, int $alpha = 1)
     {
-        $this->color(0, 0, 250, $alpha);
+        $this->fill = [$red, $green, $blue, $alpha];
 
         return $this;
     }
 
-    public function green($alpha = 1)
+    public function background(int $red, int $green, int $blue, int $alpha = 1)
     {
-        $this->color(0, 250, 0, $alpha);
-
-        return $this;
-    }
-
-    public function fill(?int $x, ?int $y)
-    {
-        imagefill($this->image, $x ?? $this->height / 2, $y ?? $this->width / 2, $this->color);
+        $this->background = [$red, $green, $blue, $alpha];
 
         return $this;
     }
