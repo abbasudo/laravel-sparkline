@@ -62,6 +62,8 @@ class Sparkline
      */
     public function render(): \Intervention\Image\Image
     {
+        $this->image->resize($this->width, $this->height);
+
         $this->image->fill($this->background);
 
         imagesetthickness($this->image->getCore(), $this->thickness);
@@ -82,17 +84,19 @@ class Sparkline
     {
         $step = $this->width / ($this->data->count() - 1);
 
+        $height = $this->height - $this->thickness * 2;
+
         $base = 0;
 
-        $this->data->each(function ($item, $key) use ($step, &$base) {
+        $this->data->each(function ($item, $key) use ($height, $step, &$base) {
             if ($item === $this->data->last()) {
                 return false;
             }
             $this->image->line(
                 $base,
-                round($this->height / ($this->data->max() / ($item + 1))) + $this->thickness,
+                round($height / ($this->data->max() / ($item + 1))) + $this->thickness,
                 $base + $step,
-                round($this->height / ($this->data->max() / ($this->data[$key + 1] + 1))) + $this->thickness,
+                round($height / ($this->data->max() / ($this->data[$key + 1] + 1))) + $this->thickness,
                 function ($draw) use ($key) {
                     $this->alpha($this->data->count() / 100 * $key / 100 + $this->offset);
                     $draw->color($this->color);
@@ -203,6 +207,20 @@ class Sparkline
     public function offset(float $offset): static
     {
         $this->offset = $offset;
+
+        return $this;
+    }
+
+    /**
+     * @param  int  $width
+     * @param  int  $height
+     *
+     * @return $this
+     */
+    public function size(int $width, int $height): static
+    {
+        $this->width = $width;
+        $this->height = $height;
 
         return $this;
     }
