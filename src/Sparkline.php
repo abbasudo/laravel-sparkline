@@ -52,6 +52,11 @@ class Sparkline
      */
     private float $offset = 0.2;
 
+    public function __construct(Collection $data)
+    {
+        $this->data = $data;
+    }
+
     /**
      * @return \Intervention\Image\Image
      */
