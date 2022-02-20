@@ -4,6 +4,7 @@ namespace Llabbasmkhll\LaravelSparkline;
 
 use Illuminate\Support\Collection;
 use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageCache;
 
 class Sparkline
 {
@@ -52,19 +53,18 @@ class Sparkline
      */
     private float $offset = 0.2;
 
-    public function __construct(Image $image = null)
-    {
-        $this->image = $image ?? Image::canvas($this->width, $this->height);
-    }
-
-
     /**
+     * @param  bool  $cache
+     *
      * @return \Intervention\Image\Image
      */
-    public
-    function render(): \Intervention\Image\Image
+    public function render(bool $cache): \Intervention\Image\Image
     {
-        $this->image->resize($this->width, $this->height);
+        if ($cache) {
+            $this->image = ImageCache::canvas($this->width, $this->height);
+        } else {
+            $this->image = Image::canvas($this->width, $this->height);
+        }
 
         $this->image->fill($this->background);
 
@@ -82,8 +82,7 @@ class Sparkline
     /**
      * @return void
      */
-    private
-    function draw(): void
+    private function draw(): void
     {
         $step = $this->width / ($this->data->count() - 1);
 
@@ -114,10 +113,8 @@ class Sparkline
      *
      * @return $this
      */
-    public
-    function alpha(
-        float $alpha
-    ): static {
+    public function alpha(float $alpha): static
+    {
         if ($alpha > 1) {
             $alpha = 1;
         }
@@ -132,10 +129,8 @@ class Sparkline
      *
      * @return $this
      */
-    public
-    function data(
-        array $data
-    ): static {
+    public function data(array $data): static
+    {
         $this->data = collect($data);
 
         $this->data->transform(
@@ -153,13 +148,8 @@ class Sparkline
      *
      * @return $this
      */
-    public
-    function color(
-        int $red,
-        int $green,
-        int $blue,
-        int $alpha = 1
-    ): static {
+    public function color(int $red, int $green, int $blue, int $alpha = 1): static
+    {
         if ($alpha > 1) {
             $alpha = 1;
         }
@@ -177,13 +167,8 @@ class Sparkline
      *
      * @return $this
      */
-    public
-    function fill(
-        int $red,
-        int $green,
-        int $blue,
-        int $alpha = 1
-    ): static {
+    public function fill(int $red, int $green, int $blue, int $alpha = 1): static
+    {
         $this->fill = [$red, $green, $blue, $alpha];
 
         return $this;
@@ -197,13 +182,8 @@ class Sparkline
      *
      * @return $this
      */
-    public
-    function background(
-        int $red,
-        int $green,
-        int $blue,
-        int $alpha = 1
-    ): static {
+    public function background(int $red, int $green, int $blue, int $alpha = 1): static
+    {
         $this->background = [$red, $green, $blue, $alpha];
 
         return $this;
@@ -214,10 +194,8 @@ class Sparkline
      *
      * @return $this
      */
-    public
-    function thickness(
-        int $thickness
-    ): static {
+    public function thickness(int $thickness): static
+    {
         $this->thickness = $thickness;
 
         return $this;
@@ -228,10 +206,8 @@ class Sparkline
      *
      * @return $this
      */
-    public
-    function offset(
-        float $offset
-    ): static {
+    public function offset(float $offset): static
+    {
         $this->offset = $offset;
 
         return $this;
@@ -243,11 +219,8 @@ class Sparkline
      *
      * @return $this
      */
-    public
-    function size(
-        int $width,
-        int $height
-    ): static {
+    public function size(int $width, int $height): static
+    {
         $this->width = $width;
         $this->height = $height;
 
