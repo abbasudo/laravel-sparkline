@@ -52,9 +52,9 @@ class Sparkline
      */
     private float $offset = 0.2;
 
-    public function __construct(Collection $data)
+    public function __construct()
     {
-        $this->data = $data;
+        $this->image = Image::canvas($this->width, $this->height);
     }
 
     /**
@@ -62,8 +62,6 @@ class Sparkline
      */
     public function render(): \Intervention\Image\Image
     {
-        $this->image = Image::canvas($this->width, $this->height);
-
         $this->image->fill($this->background);
 
         imagesetthickness($this->image->getCore(), $this->thickness);
