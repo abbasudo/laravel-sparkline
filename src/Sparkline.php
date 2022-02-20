@@ -4,7 +4,6 @@ namespace Llabbasmkhll\LaravelSparkline;
 
 use Illuminate\Support\Collection;
 use Intervention\Image\Facades\Image;
-use Intervention\Image\ImageCache;
 
 class Sparkline
 {
@@ -54,17 +53,11 @@ class Sparkline
     private float $offset = 0.2;
 
     /**
-     * @param  bool  $cache
-     *
      * @return \Intervention\Image\Image
      */
-    public function render(bool $cache): \Intervention\Image\Image
+    public function render(): \Intervention\Image\Image
     {
-        if ($cache) {
-            $this->image = ImageCache::canvas($this->width, $this->height);
-        } else {
-            $this->image = Image::canvas($this->width, $this->height);
-        }
+        $this->image = Image::canvas($this->width, $this->height);
 
         $this->image->fill($this->background);
 
