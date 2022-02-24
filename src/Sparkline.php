@@ -96,6 +96,7 @@ class Sparkline
                 $base + $step,
                 round($height / ($this->data->max() / ($this->data[$key + 1] + 1))) + $this->thickness,
                 function ($draw) use ($key) {
+                    // make the line color transparent and get colored at the end of the line
                     $this->alpha($this->data->count() / 100 * $key / 100 + $this->offset);
                     $draw->color($this->color);
                 }
@@ -129,8 +130,9 @@ class Sparkline
     {
         $this->data = collect($data);
 
+        // normalize data
         $this->data->transform(
-            fn($item) => $item - $this->data->min()
+            fn($item) => ($item - $this->data->min()) * 1000000000000
         );
 
         return $this;
