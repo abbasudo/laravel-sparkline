@@ -17,7 +17,7 @@ composer require llabbasmkhll/laravel-sparkline
 
 <!-- USAGE -->
 ## Usage
-to use sparkline all you have to provide the numbers that you want to data function and render the chart like below:
+to use sparkline all you have to is providing the numbers that you want to plot to data function and render the chart like below:
 ```php
 $metrics = [76, 80, 50, 62, 32, 55, 42, 5, 10, 2, 22, 5, 6, 26, 25, 55, 40, 32, 55, 42, 5, 10, 2, 22, 56];
 
