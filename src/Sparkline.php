@@ -62,6 +62,8 @@ class Sparkline
      */
     public function render(): \Intervention\Image\Image
     {
+        $this->image->resize($this->width, $this->height);
+
         $this->image->fill($this->background);
 
         imagesetthickness($this->image->getCore(), $this->thickness);
