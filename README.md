@@ -80,7 +80,7 @@ by defult sparklines made with faded color in the begining of the line. to custo
 ```php
 Sparkline::data($metrics)->fade(0.2)->render()->response('png');
 ```
-![FCRHK8Zpq](https://user-images.githubusercontent.com/86796762/170690936-90bd2e77-0f5d-4e2d-8c98-de9fbde4d022.png)
+![FCRHK8Zpq](https://user-images.githubusercontent.com/86796762/170690936-90bd2e77-0f5d-4e2d-8c98-de9fbde4d022.png)<br>
 1.0 to maximum fade and 0.0 to remove the fade 
 ### Size
 to change the size of the sparkline use `size`. the defult size is 80px for height and 200px for width.
