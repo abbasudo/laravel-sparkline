@@ -142,17 +142,13 @@ class Sparkline
      * @param  int  $red
      * @param  int  $green
      * @param  int  $blue
-     * @param  int  $alpha
+     * @param  float  $alpha
      *
      * @return $this
      */
-    public function color(int $red, int $green, int $blue, int $alpha = 1): static
+    public function color(int $red, int $green, int $blue, float $alpha = 1.0): static
     {
-        if ($alpha > 1) {
-            $alpha = 1;
-        }
-
-        $this->color = [$red, $green, $blue, $alpha];
+        $this->color = [$red, $green, $blue, min($alpha, 1.0)];
 
         return $this;
     }
@@ -161,13 +157,13 @@ class Sparkline
      * @param  int  $red
      * @param  int  $green
      * @param  int  $blue
-     * @param  int  $alpha
+     * @param  float  $alpha
      *
      * @return $this
      */
-    public function fill(int $red, int $green, int $blue, int $alpha = 1): static
+    public function fill(int $red, int $green, int $blue, float $alpha = 1.0): static
     {
-        $this->fill = [$red, $green, $blue, $alpha];
+        $this->fill = [$red, $green, $blue, min($alpha, 1.0)];
 
         return $this;
     }
@@ -176,13 +172,13 @@ class Sparkline
      * @param  int  $red
      * @param  int  $green
      * @param  int  $blue
-     * @param  int  $alpha
+     * @param  float  $alpha
      *
      * @return $this
      */
-    public function background(int $red, int $green, int $blue, int $alpha = 1): static
+    public function background(int $red, int $green, int $blue, float $alpha = 1.0): static
     {
-        $this->background = [$red, $green, $blue, $alpha];
+        $this->background = [$red, $green, $blue, min($alpha, 1.0)];
 
         return $this;
     }
