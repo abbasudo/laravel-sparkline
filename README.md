@@ -28,7 +28,8 @@ this will generate an sparkline like this:<br>
 
 ### Note
 `render()` will return an `Intervention\Image` object. more information in [image intervention](https://image.intervention.io/v2).<br>
-if your too lazy to read intervention docs simply use `->response('png')` to return the sparkline to the browser or `->save('public/fou.jpg')` to save the sparkline.
+if your too lazy to read intervention docs simply use `->response('png')` to return the sparkline to the browser.<br>
+or `->save('public/fou.jpg')` to save the sparkline.
 
 <br />
 <br />
