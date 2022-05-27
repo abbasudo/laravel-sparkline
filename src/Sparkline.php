@@ -200,7 +200,7 @@ class Sparkline
      *
      * @return $this
      */
-    public function fade(float $offset = 0.8): static
+    public function fade(float $offset): static
     {
         $this->offset = 1 - min($offset, 1);
 
@@ -216,6 +216,30 @@ class Sparkline
     public function size(int $width, int $height): static
     {
         $this->width = $width;
+        $this->height = $height;
+
+        return $this;
+    }
+
+    /**
+     * @param  int  $width
+     *
+     * @return $this
+     */
+    public function width(int $width): static
+    {
+        $this->width = $width;
+
+        return $this;
+    }
+
+    /**
+     * @param  int  $height
+     *
+     * @return $this
+     */
+    public function height(int $height): static
+    {
         $this->height = $height;
 
         return $this;
