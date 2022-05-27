@@ -18,19 +18,19 @@ class Sparkline
     private int $width = 200;
 
     /**
-     * @var int[]
+     * @var int|float[]
      */
     private array $color = [219, 211, 44, 1.0];
 
     /**
-     * @var int[]
+     * @var int|float[]
      */
-    private array $background = [0, 0, 0, 0];
+    private array $background = [0, 0, 0, 0.0];
 
     /**
-     * @var int[]
+     * @var int|float[]
      */
-    private array $fill = [219, 211, 44, 0];
+    private array $fill = [219, 211, 44, 0.0];
 
     /**
      * @var Collection
@@ -204,9 +204,9 @@ class Sparkline
      *
      * @return $this
      */
-    public function offset(float $offset): static
+    public function fade(float $offset = 0.8): static
     {
-        $this->offset = $offset;
+        $this->offset = 1 - min($offset, 1);
 
         return $this;
     }
