@@ -9,7 +9,7 @@ it uses [image intervention](https://image.intervention.io/v2) and [PHP gd](http
 <!-- INSTALLATION -->
 ## Installation 
 ```shell
-composer require llabbasmkhll/laravel-sparkline
+composer require abbaudo/laravel-sparkline
 ```
 
 <br />
@@ -152,7 +152,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Abbas mkhzomi - [Telegram@llabbasmkhll](https://t.me/llabbasmkhll) - llabbasmkhll@gmail.com
+Abbas mkhzomi - [Telegram@abbaudox](https://t.me/abbaudox) - amkhzomi@gmail.com
 
-Project Link: [https://github.com/llabbasmkhll/laravel-sparkline](https://github.com/llabbasmkhll/laravel-sparkline)
+Project Link: [https://github.com/abbaudo/laravel-sparkline](https://github.com/abbaudo/laravel-sparkline)
 
